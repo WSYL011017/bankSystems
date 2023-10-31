@@ -1,0 +1,36 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: bank
+  datasource:
+    driver-class-name: ${bank.mysql.driver}
+    url: jdbc:mysql://${bank.mysql.ip}:${bank.mysql.port}/${bank.mysql.db}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: ${bank.mysql.username}
+    password: ${bank.mysql.password}
+    type: com.alibaba.druid.pool.DruidDataSource
+  redis:
+    database: 5
+    port: ${bank.redis.port}
+    password: ${bank.redis.password}
+    host: ${bank.redis.ip}
+    sentinel:
+      master: mymaster
+      nodes:
+        - ${bank.redis.ip}:${bank.redis.sentinel.port}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    root: info
+mybatis-plus:
+  type-aliases-package: com.bank.mapper
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
